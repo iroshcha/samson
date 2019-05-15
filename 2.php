@@ -8,12 +8,30 @@
 function mySortForKey($a, $b) {
 	$data_b=[];
 	foreach($a as $key => $value) {
-	    $data_b[$key] = $value[$b];
+		if (!array_key_exists($b, $a[$key])) {
+		throw new Exception('in array ' . $key . ' is missing index: b');
+	}
+			    $data_b[$key] = $value[$b];
 	}
 	array_multisort($a, SORT_NUMERIC, $data_b);
 	return $a;
 }
-
-
- 
-
+$arr = [
+	[
+	'a' => 1,
+	'b' => 9
+	],
+	[
+	'a' => 1,
+	'b' => 2
+	],
+	[
+	'a' => 1,
+	'b' => 5
+	]
+]
+try {
+	print_r(mySortForKey($arr, 'b'));
+} catch (Exception $e) {
+	echo $e->getMessage();
+}
