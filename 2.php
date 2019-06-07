@@ -48,7 +48,7 @@ function importXml($a)
 	foreach ($s->Товар as  $product) {
 		$name = $product->attributes()->Название;	
 		$code = $product->attributes()->Код;	
-		$query ="INSERT INTO a_product(name, code) VALUES ('" . $name . "', '" . $code . "')"; 
+		$query ="INSERT INTO a_product(name, code) VALUES ('" . mysql_real_escape_string($name) . "', '" . int($code) . "')"; 
 		$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected));
 		$query ="SELECT id FROM a_product WHERE name = '" . $name . "' LIMIT 1";
 		$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected)); 
@@ -57,18 +57,18 @@ function importXml($a)
 		foreach ($product->Цена as $value) {
 			$typePrice = $value->attributes();
 			$price = $value;
-			$query ="INSERT INTO a_price(type, price, id_product) VALUES ('" . $typePrice . "', '" . $price . "', '" . $id . "')"; 
+			$query ="INSERT INTO a_price(type, price, id_product) VALUES ('" . mysql_real_escape_string($typePrice) . "', '" . float($price) . "', '" . int($id) . "')"; 
 			$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected));
 		}
 		foreach (json_decode(json_encode($product->Свойства)) as  $name => $property) {
 			if (!is_array($property)) {
 	 			$propertyProduct = 	$name . " - " . $property;
-	 			$query ="INSERT INTO a_property(value, id_product) VALUES ('" . $propertyProduct . "', '" . $id . "')"; 
+	 			$query ="INSERT INTO a_property(value, id_product) VALUES ('" . mysql_real_escape_string($propertyProduct) . "', '" . int($id) . "')"; 
 				$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected));
 			} else {
 				foreach ($property as  $property1) {
 					$propertyProduct = 	$name . " - " . $property1;
-	 				$query ="INSERT INTO a_property(value, id_product) VALUES ('" . $propertyProduct . "', '" . $id . "')"; 
+	 				$query ="INSERT INTO a_property(value, id_product) VALUES ('" . mysql_real_escape_string($propertyProduct) . "', '" . int($id) . "')"; 
 					$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected));
 				}
 			}
@@ -79,7 +79,7 @@ function importXml($a)
 			$query1 ="SELECT name, id FROM a_category WHERE name = '" . $category . "'";
 			$result1 = mysqli_query($is_connected, $query1) or die("Ошибка " . mysqli_error($is_connected)); 
 			if (mysqli_num_rows($result1) == 0) {
-				$query ="INSERT INTO a_category(name, code) VALUES ('" . $category . "', '" . $code . "')"; 
+				$query ="INSERT INTO a_category(name, code) VALUES ('" . mysql_real_escape_string($category) . "', '" . int($code) . "')"; 
 				$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected));
 				
 			}
@@ -89,11 +89,11 @@ function importXml($a)
 				 	$idCategory[] = $row['id'];
 				 	$idCategoryLast = $row['id'];
 				 }
-			$query ="INSERT INTO category_product(id_product, id_category) VALUES ('" . $id . "', '" . $idCategoryLast . "')"; 
+			$query ="INSERT INTO category_product(id_product, id_category) VALUES ('" . int($id) . "', '" . mysql_real_escape_string($idCategoryLast) . "')"; 
 			$result = mysqli_query($is_connected, $query) or die("Ошибка " . mysqli_error($is_connected));	 
 			if (count($idCategory)>1) {
 				$parentId = $idCategory[count($idCategory)-2];
-				$query2 ="UPDATE a_category SET parent_id='" . $parentId . "', code='" .$code . $idCategoryLast. "' WHERE id='" . $idCategoryLast . "' ";
+				$query2 ="UPDATE a_category SET parent_id='" . int($parentId) . "', code='" . int($code) . int($idCategoryLast) . "' WHERE id='" . $idCategoryLast . "' ";
 	    		$result = mysqli_query($is_connected, $query2) or die("Ошибка " . mysqli_error($link));  
 			}
 		}
