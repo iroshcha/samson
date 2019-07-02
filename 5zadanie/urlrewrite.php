@@ -24,4 +24,12 @@ $arUrlRewrite=array (
     'PATH' => '/news/index.php',
     'SORT' => 100,
   ),
+  3 => 
+  array (
+    'CONDITION' => '#^/admin/users/([a-zA-Z]+)#',
+    'RULE' => 'login=$1',
+    'ID' => '',
+    'PATH' => '/admin/users/detail.php',
+    'SORT' => 100,
+  ),
 );
