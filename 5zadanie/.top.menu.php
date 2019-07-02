@@ -1,6 +1,12 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?
 $aMenuLinks = Array(
+	Array(
+		"", 
+		"/", 
+		Array(), 
+		Array("IMG"=>"/local/templates/inner/images/nv_home.png"), 
+		"" 
+	),
 	Array(
 		"Компания", 
 		"company/", 
@@ -16,7 +22,7 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Продукция", 
+		"Католог", 
 		"products/", 
 		Array(), 
 		Array(), 
@@ -32,6 +38,20 @@ $aMenuLinks = Array(
 	Array(
 		"Контакты", 
 		"contacts/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Акции", 
+		"/Actions/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Партнерам", 
+		"/partners/", 
 		Array(), 
 		Array(), 
 		"" 
